@@ -15,6 +15,9 @@
       </div>
       <h2 class="article-title">{{ object.title }}</h2>
       <p class="article-content">{{ object.content }}</p>
+      {% if post.image %}
+      <div><img src="{{ post.image.url }}" class="img-thumbnail" style="width: 100%; float: left; margin-right: 10px;" /></div>
+      {% endif %}
     </div>
   </article>
 {% endblock content %}

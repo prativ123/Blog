@@ -11,8 +11,17 @@
               <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
             </div>
             <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-          </div>
+            <div class="d-flex">
+                <div class="flex-grow-1">
+                    <p class="article-content">{{ post.content }}</p>
+                </div>
+                <div class="flex-shrink-0">
+                    {% if post.image %}
+                    <img src="{{ post.image.url }}" class="img-thumbnail" height =300px width="200px" />
+                    {% endif %}
+                </div>
+            </div>
+
         </article>
     {% endfor %}
     {% if is_paginated %}
