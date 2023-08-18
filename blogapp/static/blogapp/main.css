@@ -38,6 +38,7 @@ body {
   
   .article-title {
     color: #444444;
+    font-family: Georgia, serif;
   }
   
   a.article-title:hover {
@@ -47,6 +48,7 @@ body {
   
   .article-content {
     white-space: pre-line;
+    font-family: cursive;
   }
   
   .article-img {

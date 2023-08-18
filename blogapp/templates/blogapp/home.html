@@ -17,7 +17,8 @@
                 </div>
                 <div class="flex-shrink-0">
                     {% if post.image %}
-                    <img src="{{ post.image.url }}" class="img-thumbnail" height =300px width="200px" />
+                    &nbsp;<img src="{{ post.image.url }}" href="{% url 'post-detail' post.id %}" class="img-thumbnail" height =100px width="100px" 
+                    style= "margin-left: auto; margin-right: auto;" />
                     {% endif %}
                 </div>
             </div>
