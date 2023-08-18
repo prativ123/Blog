@@ -42,6 +42,54 @@ class UserPostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+    # comment = Comment.objects.filter(post=comment).order_by('-id')[:7]
+
+    # def get_queryset(self):
+    #     comment = get_object_or_404(Post, comment=self.kwargs.get('comment'))
+    #     return Comment.objects.filter(post=comment).order_by('-date_posted')[:7]
+    # ordering = ['posted_on']
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        
+        post = self.get_object()
+        comments = Comment.objects.filter(post=post).order_by('-date_posted')[:7]
+        data['comments'] = comments
+
+        likes_connected = get_object_or_404(Post, id=self.kwargs['pk'])
+        liked = False
+        if likes_connected.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        data['number_of_likes'] = likes_connected.number_of_likes()
+        data['post_is_liked'] = liked
+        return data
+    
+
+    
+    
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpRequest
+from django.contrib import messages
+from django.shortcuts import render,redirect
+
+@login_required
+def add_comment(request: HttpRequest,post_id)->HttpResponse:
+    if request.method == "POST":
+        user = request.user
+        posts = Post.objects.get(id=post_id)
+
+        comment = request.POST.get("comment")
+        new_comment = Comment(user=user, post=posts, comment=comment)
+        new_comment.save()
+        messages.success(request, "Thank you for your comment!")
+        comments = Comment.objects.filter(post=posts).order_by('id')[:7] 
+        context={
+             
+            'comments' : comments,
+            'post_id':post_id
+            
+        }
+
+    return redirect('post-detail', pk=post_id)
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -116,3 +164,14 @@ def search_feature(request):
 
 def about(request):
     return render(request, 'blogapp/about.html')
+
+from django.shortcuts import HttpResponseRedirect
+
+def PostLike(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+
+    return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
