@@ -77,17 +77,13 @@ def add_comment(request: HttpRequest,post_id)->HttpResponse:
         user = request.user
         posts = Post.objects.get(id=post_id)
 
-        comment = request.POST.get("comment")
-        new_comment = Comment(user=user, post=posts, comment=comment)
-        new_comment.save()
-        messages.success(request, "Thank you for your comment!")
-        comments = Comment.objects.filter(post=posts).order_by('id')[:7] 
-        context={
-             
-            'comments' : comments,
-            'post_id':post_id
-            
-        }
+        comment = request.POST.get("comment","").strip()
+        if comment:
+            new_comment = Comment(user=user, post=posts, comment=comment)
+            new_comment.save()
+            messages.success(request, "Thank you for your comment!")
+        else:
+            messages.success(request, "Comment cannot be empty.")
 
     return redirect('post-detail', pk=post_id)
 

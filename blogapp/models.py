@@ -26,7 +26,7 @@ class Post(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    comment = models.TextField()
+    comment = models.TextField(blank=False)
     date_posted = models.DateTimeField(default=timezone.now)
 
     class Meta:
