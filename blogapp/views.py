@@ -113,19 +113,22 @@ def add_comment(request: HttpRequest,post_id)->HttpResponse:
 
     return redirect('post-detail', pk=post_id)
 
-
+from django import forms
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'image']
-
+    
+    fields = ['title', 'content', 'image', 'tags']
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'image']
+    fields = ['title', 'content', 'image', 'tags']
+
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -136,6 +139,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
+    
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
