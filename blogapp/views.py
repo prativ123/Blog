@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -28,6 +29,31 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
+
+
+from taggit.models import Tag
+
+def post_list(request, tag_slug=None):
+    posts = Post.objects.all()
+
+    # post tag
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        posts = posts.filter(tags__in=[tag]).order_by('-date_posted')
+    
+    # Define paginator and page number outside of the if statement
+    paginator = Paginator(posts, 3)  # Show 3 posts per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Pass is_paginated flag to template context
+    is_paginated = page_obj.has_other_pages()
+    
+    return render(request, 'blogapp/post_list.html', {'tag': tag, 'page_obj': page_obj, 'is_paginated': is_paginated})
+
+
+
 
 class UserPostListView(ListView):
     model = Post

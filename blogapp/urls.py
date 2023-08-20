@@ -14,6 +14,7 @@ urlpatterns = [
     path('search/', search_feature, name='search-view'),
     path('post-like/<int:pk>', PostLike, name="post-like"),
     path('postComment/<int:post_id>',add_comment, name='add-comment'),
+    path('tag/<slug:tag_slug>/',post_list, name='post-tag'),
     ]
 
 if settings.DEBUG:
