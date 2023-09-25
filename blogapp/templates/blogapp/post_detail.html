@@ -16,25 +16,10 @@
         
       </div>
       
-      <div style="float: right;">
-         {% if user.is_authenticated %}
-            <form action="{% url 'post-like' object.id %}" method="POST">
-               {% csrf_token %}
-               <br>
-               {% if post_is_liked %}
-               <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-info" style="font-family: cursive;">Unlike({{ number_of_likes }})</button>
-               {% else %}
-               <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-info" style="font-family: cursive;">Like({{ number_of_likes }})</button>
-               {% endif %}
-            </form>
-         {% else %}
-            <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to like this article!</a><br>
-         {% endif %}
-         <!-- <strong class="text-secondary" style="font-family: cursive;">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong> -->
-       </div>
+
       <h2 class="article-title">{{ object.title }}</h2>
       
-      <p class="article-content">Views: {{object.blog_views}}</p>
+      
       <p>
          <strong>Tags:</strong>
          {% for tag in post.tags.all %}
@@ -49,7 +34,28 @@
       {% if post.image %}
       <div><img src="{{ post.image.url }}" class="img-thumbnail" style="width: 100%; float: left; margin-right: 10px;" /></div>
       {% endif %}
+      
+      <div style="float: right;">
+         {% if user.is_authenticated %}
+         
+            <form action="{% url 'post-like' object.id %}" method="POST">
+               {% csrf_token %}
+               <br>
+               {% if post_is_liked %}
+               <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-info" style="font-family: cursive;">Unlike({{ number_of_likes }})</button>
+               {% else %}
+               <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-outline-info" style="font-family: cursive;">Like({{ number_of_likes }})</button>
+               {% endif %}
+            </form>
+         {% else %}
+            <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to like this article!</a><br>
+         {% endif %}
+         <!-- <strong class="text-secondary" style="font-family: cursive;">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong> -->
+       
+      </div>
+      <p class="article-content" style="color: #868a8e">{{object.blog_views}} views</p>
     </div> 
+    
    </article>
       <div class="container" style="align-items: center; font-family: cursive;">
          <h4 class="text-center">Comments:</h4>
@@ -61,7 +67,7 @@
                <input type="hidden" name="post" class="form-control" value="{{posts.post_id}}">
             </div>
             <div class="col-sm-4">
-               <button type="submit" class="btn btn-primary">Submit</button>
+               <button type="submit" class="btn btn-info">Submit</button>
             </div>
          </div>
          {% if request.method == "POST" and not comment %}
