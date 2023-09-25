@@ -91,6 +91,42 @@
             <h5>No reviews yet...</h5>
          {% endfor %}
          
-      </div>
-   
+      </div><hr>
+      
+      <div class="article-content">
+         <h2 style="align-items: center; font-family: cursive; ">Similar Posts:</h2>
+         <div class="row">
+             {% for post in similar %}
+                 <div class="col-md-4 mb-4">
+                     <div class="card">
+                        {% if post.image %}
+                        <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" >
+                        
+                         <div class="card-body">
+                             <h5 class="card-title"><a href="{{ post.get_absolute_url }}"><u>{{ post.title }}</u></a></h5><hr>
+                             <p class="card-text">{{ post.content|truncatechars:100 }}</p><hr>
+                             <p>{{ post.date_posted|date:"F d, Y" }} | By {{ post.author }}</p> 
+                         </div>
+                        {% else %} 
+                        <div class="card-body">
+                           <h5 class="card-title"><a href="{{ post.get_absolute_url }}"><u>{{ post.title }}</u></a></h5><hr>
+                           <p class="card-text">{{ post.content|truncatechars:100 }}</p><hr>
+                           <p>{{ post.date_posted|date:"F d, Y" }} | By {{ post.author }}</p> 
+                        </div>
+                        {% endif %}
+                     </div>
+                 </div>
+             {% empty %}
+                 <div class="col">
+                     <p class="text-muted">There are no similar posts.</p>
+                 </div>
+             {% endfor %}
+         </div>
+     </div>
+     
+
+
+
+     
+
 {% endblock content %}

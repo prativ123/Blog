@@ -66,7 +66,8 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')
 
 
-from django.db.models import F, Value
+
+from django.db.models import Count
 
 class PostDetailView(DetailView):
     model = Post
@@ -98,8 +99,17 @@ class PostDetailView(DetailView):
             liked = True
         data['number_of_likes'] = likes_connected.number_of_likes()
         data['post_is_liked'] = liked
+
+        # Retrieving list of similar articles
+        post_tags_ids = post.tags.values_list('id', flat=True)
+        similar_posts = Post.objects.filter(tags__in=post_tags_ids)\
+                                        .exclude(id=post.id)
+        similar = similar_posts.annotate(same_tags_in_article=Count('tags'))\
+                                        .order_by('-same_tags_in_article','-date_posted')[:3]
+        data['similar'] = similar 
         return data
     
+                
 
     
     
