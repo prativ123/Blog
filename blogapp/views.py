@@ -222,3 +222,5 @@ def PostLike(request, pk):
         post.likes.add(request.user)
 
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
+
+
