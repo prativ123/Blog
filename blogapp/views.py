@@ -66,8 +66,19 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')
 
 
+from django.db.models import F, Value
+
 class PostDetailView(DetailView):
     model = Post
+
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        
+        # Increment the view count by 1
+        obj.blog_views += 1
+        obj.save()
+
+        return super().get(request, *args, **kwargs)
     # comment = Comment.objects.filter(post=comment).order_by('-id')[:7]
 
     # def get_queryset(self):

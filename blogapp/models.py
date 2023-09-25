@@ -17,6 +17,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, related_name='post_like')
     tags = TaggableManager(blank=True) 
+    blog_views=models.IntegerField(default=1)
     
 
     def __str__(self):
