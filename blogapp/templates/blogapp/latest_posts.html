@@ -1,7 +1,7 @@
 <ol>
     {% for latest_post in latest_posts %}
         <li>
-            <a href="{{ latest_post.get_canonical_url }}">{{ latest_post.title }}</a>
+            <a href="{{ latest_post.get_absolute_url }}">{{ latest_post.title }}</a>
         </li>
     {% endfor %}
 </ol>

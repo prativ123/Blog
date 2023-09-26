@@ -1,0 +1,9 @@
+<ol>
+    {% for most_viewed_post in most_viewed_posts %}
+        <li>
+            <a href="{{ most_viewed_post.get_absolute_url }}">{{most_viewed_post.title}}</a>
+        </li>
+
+    {% endfor %}
+
+</ol>
