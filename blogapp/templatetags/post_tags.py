@@ -19,3 +19,4 @@ def show_most_viewed_posts(count=3):
                                 
     return {'most_viewed_posts' : most_viewed_posts}
     pass
+

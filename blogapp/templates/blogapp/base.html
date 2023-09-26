@@ -20,6 +20,7 @@
         {% else %}
           <title>Django Blog</title>
         {% endif %}
+        
 </head>
 <body>
     <header class="site-header">
@@ -84,8 +85,11 @@
                 <ul class="list-group">
                   <li class="list-group-item list-group-item-light">Latest Posts: {% show_latest_posts 3 %}</li>
                   <li class="list-group-item list-group-item-light">Most Viewed Posts: {% show_most_viewed_posts 3 %}</li>
-                  <li class="list-group-item list-group-item-light">Calendars:<p>Current Date-Time: {% now "jS F Y, H:i A" %}</p></li>
-                  <li class="list-group-item list-group-item-light">etc</li>
+                  <li class="list-group-item list-group-item-light">Current Day-Date-Time: {% now "l, jS F Y, h:i A" %}</li>
+                  <li class="list-group-item list-group-item-light">Advertisement
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRLlO2fKhNpkHIB6HUBxgHBbLAnn5o1Yi8xw" 
+                    alt="Advertisement" style="width: 100%; height: auto; opacity: 0.9;">                   
+                  </li>               
                 </ul>
               </p>
             </div>
