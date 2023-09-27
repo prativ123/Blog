@@ -224,3 +224,31 @@ def PostLike(request, pk):
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
 
 
+
+@login_required
+def add_to_saved(request,post_id):
+    user=request.user
+    post = Post.objects.get(id=post_id)
+    
+    check_post_presence = Saved.objects.filter(user=user,post=post)
+    if check_post_presence:
+        messages.success(request,'Post is already present in the Saved')
+        return redirect('/')
+
+    else:
+        saved = Saved.objects.create(post=post,user=user)
+        if saved:
+            messages.success(request,'Post added to Saved')
+            return redirect('/posts/saved')
+        else:
+            messages.success(request,'Unable to add post to Saved')
+
+
+@login_required
+def show_saved_post(request):
+    user = request.user
+    posts=Saved.objects.filter(user=user)
+    context={
+        'posts':posts
+    }
+    return render(request,'blogapp/saved.html',context)

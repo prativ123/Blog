@@ -51,7 +51,9 @@
             <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to like this article!</a><br>
          {% endif %}
          <!-- <strong class="text-secondary" style="font-family: cursive;">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong> -->
-       
+         <p>
+            <br><a href="{% url 'add_to_saved' post.id %}" class="btn btn-success" >Add To Saved</a>
+         </p>
       </div>
       <p class="article-content" style="color: #868a8e">{{object.blog_views}} views</p>
     </div> 

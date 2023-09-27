@@ -15,6 +15,8 @@ urlpatterns = [
     path('post-like/<int:pk>', PostLike, name="post-like"),
     path('postComment/<int:post_id>',add_comment, name='add-comment'),
     path('tag/<slug:tag_slug>/',post_list, name='post-tag'),
+    path('add_to_saved/<int:post_id>',add_to_saved, name='add_to_saved'),
+    path('saved/',show_saved_post, name='show_saved_post'),
     ]
 
 if settings.DEBUG:

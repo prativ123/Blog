@@ -8,11 +8,24 @@
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
         </div>
+
       </div>
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Profile Info</legend>
+          <legend class="border-bottom mb-4">
+            Profile Info
+            <a href="{% url 'show_saved_post' %}" class="btn btn-info saved-button">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span style="font-weight: bold;">Saved</span>
+                <span style="background-color: #17a2b8; color: #fff; border-radius: 50%; padding: 4px 8px; font-size: 12px;">
+                  {{ posts|length }}
+                </span>
+              </div>
+            </a>
+          </legend>
+          
+
             {{ u_form|crispy }}
             {{ p_form|crispy }}
         </fieldset>
