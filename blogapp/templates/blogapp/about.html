@@ -12,6 +12,26 @@
         <p>Get Involved:
          We encourage you to explore our blog posts, leave comments, and join the conversation. Your feedback and ideas are invaluable to us!</p>
         <p>Thank you for being a part of our community. We hope you enjoy your time on our blog!</p>
+        <div id="map" style="height: 400px;"></div>
     </div>
+    <script>
+        // Create a Leaflet map with initial center and zoom level
+        var map = L.map('map').setView([27.694966, 85.370681], 17);
+        
+        // Add a tile layer from OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Add a draggable marker to the map
+        var marker = L.marker([27.694966, 85.370681], { draggable: true }).addTo(map);
+        
+        // Add a listener for the dragend event to update the marker position
+        marker.on('dragend', function(event) {
+            var selectedLocation = marker.getLatLng();
+            console.log(selectedLocation);
+            // You can send this data to your server using AJAX for further processing
+        });
+        </script>
 {% endblock content %}
 
